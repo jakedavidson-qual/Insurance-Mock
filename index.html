@@ -5,76 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SecureLife Insurance | Client Portal Demo</title>
     <style>
-        /* --- CSS STYLES --- */
-        :root {
-            --primary-navy: #0a192f;
-            --secondary-blue: #112240;
-            --light-blue: #e6f1ff;
-            --accent-green: #64ffda;
-            --white: #ffffff;
-            --grey: #f4f7f6;
-            --danger: #d63031;
-        }
-
+        /* --- CSS STYLES (Unchanged) --- */
+        :root { --primary-navy: #0a192f; --secondary-blue: #112240; --light-blue: #e6f1ff; --accent-green: #64ffda; --white: #ffffff; --grey: #f4f7f6; --danger: #d63031; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--white); color: #333; line-height: 1.6; }
-
-        /* Navigation */
         nav { background-color: var(--primary-navy); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; color: var(--white); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
         .nav-links button { background: transparent; border: 1px solid var(--white); color: var(--white); padding: 8px 20px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
         .nav-links button:hover { background: var(--white); color: var(--primary-navy); }
-
-        /* Helpers */
         .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
         .hidden { display: none !important; }
         .btn-main { background-color: var(--primary-navy); color: var(--white); padding: 15px 30px; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; text-transform: uppercase; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .btn-main:hover { background-color: var(--secondary-blue); }
-
-        /* HERO SECTION */
         .hero { background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.8)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
         .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
         .hero p { font-size: 1.2rem; color: #8892b0; max-width: 600px; margin: 0 auto 2rem auto; }
-
-        /* SERVICES */
         .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: -50px; position: relative; z-index: 10; }
         .card { background: var(--white); padding: 2rem; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid var(--primary-navy); }
         .card h3 { color: var(--primary-navy); margin-bottom: 1rem; }
-
-        /* LOGIN MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .login-box { background: var(--white); padding: 3rem; border-radius: 10px; width: 400px; text-align: center; }
         .input-group { margin-bottom: 1rem; text-align: left; }
         .input-group label { display: block; margin-bottom: 5px; color: var(--primary-navy); font-weight: bold; }
         .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-
-        /* DASHBOARD */
         .dashboard-header { background-color: var(--grey); padding: 2rem 0; border-bottom: 1px solid #ddd; }
         .welcome-banner { display: flex; justify-content: space-between; align-items: center; }
-        
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
         .stat-card { background: var(--white); padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .stat-card.primary { background: var(--primary-navy); color: var(--white); }
         .stat-card h2 { font-size: 2rem; margin: 10px 0; }
         .stat-card .label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
-
-        /* POLICY LIST */
         .section-title { margin-top: 3rem; margin-bottom: 1rem; color: var(--primary-navy); border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .policy-card { background: var(--white); border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 1.5rem; overflow: hidden; }
         .policy-header { background-color: #f8f9fa; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0; }
         .policy-body { padding: 1.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         .data-point span { display: block; font-size: 0.85rem; color: #666; margin-bottom: 4px; }
         .data-point strong { font-size: 1.1rem; color: var(--primary-navy); }
-        
         .status { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
         .active { background-color: #e6fffa; color: #00b894; border: 1px solid #00b894; }
         .review { background-color: #fffbea; color: #d69e2e; border: 1px solid #d69e2e; }
-
-        /* TABLE */
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; }
-        th { text-align: left; background: var(--primary-navy); color: white; padding: 12px; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        tr:last-child td { border-bottom: none; }
+        .error-msg { color: var(--danger); font-size: 0.9rem; margin-bottom: 10px; display: none;}
         
         @media (max-width: 768px) {
             .policy-body { grid-template-columns: 1fr; }
@@ -123,87 +93,21 @@
         <div class="dashboard-header">
             <div class="container welcome-banner">
                 <div>
-                    <h1>Welcome back, Robert</h1>
-                    <p>Client ID: <strong>#8839201-US</strong></p>
+                    <h1 id="userWelcome">Welcome back...</h1>
+                    <p>Client ID: <strong id="userId">#...</strong></p>
                 </div>
             </div>
         </div>
 
         <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card primary">
-                    <p class="label">Next Payment Due</p>
-                    <h2>$248.50</h2>
-                    <p style="font-size: 0.9rem; color: #bdc3c7;">Due Date: Nov 28, 2023</p>
+            <div class="stats-grid" id="statsContainer">
                 </div>
-                <div class="stat-card">
-                    <p class="label">Total Coverage Value</p>
-                    <h2>$1.25M</h2>
-                    <p style="font-size: 0.9rem; color: #666;">Across 3 Active Policies</p>
-                </div>
-                <div class="stat-card">
-                    <p class="label">Yearly Savings</p>
-                    <h2 style="color: #00b894;">$420.00</h2>
-                    <p style="font-size: 0.9rem; color: #666;">Safe Driver Discount Applied</p>
-                </div>
-                <div class="stat-card">
-                    <p class="label">Open Claims</p>
-                    <h2>0</h2>
-                    <p style="font-size: 0.9rem; color: #666;">Last Claim: Feb 2021 (Closed)</p>
-                </div>
-            </div>
 
-            <h3 class="section-title">Active Policies</h3>
+            <h3 class="section-title">Your Policies</h3>
 
-            <div class="policy-card">
-                <div class="policy-header">
-                    <div><h4>2024 Tesla Model Y</h4><small>Policy #: AUT-99284-TX</small></div>
-                    <span class="status active">Active</span>
+            <div id="policiesContainer">
                 </div>
-                <div class="policy-body">
-                    <div class="data-point"><span>Coverage Level</span><strong>Comprehensive + Collision</strong></div>
-                    <div class="data-point"><span>Deductible</span><strong>$500.00</strong></div>
-                    <div class="data-point"><span>Premium</span><strong>$148.50 / mo</strong></div>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    <div><h4>123 Maple Avenue, Austin TX</h4><small>Policy #: HOM-11205-TX</small></div>
-                    <span class="status active">Active</span>
-                </div>
-                <div class="policy-body">
-                    <div class="data-point"><span>Dwelling Coverage</span><strong>$650,000</strong></div>
-                    <div class="data-point"><span>Personal Property</span><strong>$150,000</strong></div>
-                    <div class="data-point"><span>Premium</span><strong>$1,200.00 / yr</strong></div>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    <div><h4>Term Life (20 Year)</h4><small>Policy #: LIF-77319-US</small></div>
-                    <span class="status review">Annual Review</span>
-                </div>
-                <div class="policy-body">
-                    <div class="data-point"><span>Death Benefit</span><strong>$500,000</strong></div>
-                    <div class="data-point"><span>Beneficiary</span><strong>Jane Doe (Spouse)</strong></div>
-                    <div class="data-point"><span>Premium</span><strong>$45.00 / mo</strong></div>
-                </div>
-            </div>
-
-            <h3 class="section-title">Recent Transactions</h3>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr><th>Date</th><th>Description</th><th>Policy</th><th>Amount</th><th>Status</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Oct 28, 2023</td><td>Auto-Pay Monthly Premium</td><td>AUT-99284-TX</td><td>$148.50</td><td style="color: green;">Success</td></tr>
-                        <tr><td>Oct 15, 2023</td><td>Term Life Premium</td><td>LIF-77319-US</td><td>$45.00</td><td style="color: green;">Success</td></tr>
-                        <tr><td>Sep 28, 2023</td><td>Auto-Pay Monthly Premium</td><td>AUT-99284-TX</td><td>$148.50</td><td style="color: green;">Success</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            
             <br><br>
         </div>
     </div>
@@ -211,54 +115,203 @@
     <div id="loginModal" class="modal-overlay hidden">
         <div class="login-box">
             <h2>Client Portal</h2>
-            <p style="margin-bottom: 15px; font-size: 0.9rem; color: #666;">(For this demo, any password works)</p>
+            <p id="loginError" class="error-msg">Invalid email or password.</p>
+            <p style="margin-bottom: 15px; font-size: 0.8rem; color: #666; text-align:left;">
+                <strong>Try these demo users:</strong><br>
+                1. robert@demo.com / pass123<br>
+                2. sarah@demo.com / pass123
+            </p>
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" value="demo@client.com">
+                <input type="email" id="emailInput" placeholder="Enter email">
             </div>
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" value="password123">
+                <input type="password" id="passInput" placeholder="Enter password">
             </div>
-            <button class="btn-main" onclick="performLogin()" style="width: 100%;">Sign In</button>
+            <button class="btn-main" onclick="attemptLogin()" style="width: 100%;">Sign In</button>
             <p style="margin-top: 10px; cursor: pointer; color: #666;" onclick="toggleLoginModal()">Cancel</p>
         </div>
     </div>
 
     <script>
+        /* --- MOCK DATABASE (Fake Users) --- */
+        const mockDatabase = {
+            "robert@demo.com": {
+                password: "pass123",
+                name: "Robert",
+                id: "#8839201-US",
+                stats: {
+                    due: "$248.50",
+                    coverage: "$1.25M",
+                    savings: "$420.00",
+                    claims: "0"
+                },
+                policies: [
+                    {
+                        title: "2024 Tesla Model Y",
+                        sub: "Policy #: AUT-99284-TX",
+                        status: "Active",
+                        details: [
+                            { label: "Coverage", val: "Comprehensive" },
+                            { label: "Deductible", val: "$500.00" },
+                            { label: "Premium", val: "$148.50 / mo" }
+                        ]
+                    },
+                    {
+                        title: "123 Maple Avenue",
+                        sub: "Policy #: HOM-11205-TX",
+                        status: "Active",
+                        details: [
+                            { label: "Dwelling", val: "$650,000" },
+                            { label: "Property", val: "$150,000" },
+                            { label: "Premium", val: "$1,200 / yr" }
+                        ]
+                    },
+                    {
+                        title: "Term Life (20 Year)",
+                        sub: "Policy #: LIF-77319-US",
+                        status: "Review",
+                        details: [
+                            { label: "Benefit", val: "$500,000" },
+                            { label: "Beneficiary", val: "Jane Doe" },
+                            { label: "Premium", val: "$45.00 / mo" }
+                        ]
+                    }
+                ]
+            },
+            "sarah@demo.com": {
+                password: "pass123",
+                name: "Sarah",
+                id: "#9921005-NY",
+                stats: {
+                    due: "$85.00",
+                    coverage: "$45,000",
+                    savings: "$50.00",
+                    claims: "1"
+                },
+                policies: [
+                    {
+                        title: "2018 Honda Civic",
+                        sub: "Policy #: AUT-55412-NY",
+                        status: "Active",
+                        details: [
+                            { label: "Coverage", val: "Liability Only" },
+                            { label: "Deductible", val: "$1,000.00" },
+                            { label: "Premium", val: "$85.00 / mo" }
+                        ]
+                    }
+                ]
+            }
+        };
+
         // DOM Elements
         const publicView = document.getElementById('publicView');
         const dashboardView = document.getElementById('dashboardView');
         const loginModal = document.getElementById('loginModal');
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
+        const errorMsg = document.getElementById('loginError');
+
+        // Inputs
+        const emailInput = document.getElementById('emailInput');
+        const passInput = document.getElementById('passInput');
+
+        // Dashboard targets
+        const userWelcome = document.getElementById('userWelcome');
+        const userId = document.getElementById('userId');
+        const statsContainer = document.getElementById('statsContainer');
+        const policiesContainer = document.getElementById('policiesContainer');
 
         function toggleLoginModal() {
             loginModal.classList.toggle('hidden');
+            errorMsg.style.display = 'none'; // reset error
+            emailInput.value = "";
+            passInput.value = "";
         }
 
-        function performLogin() {
-            // Fake the login process
-            loginModal.classList.add('hidden');
-            publicView.classList.add('hidden');
-            dashboardView.classList.remove('hidden');
-            
-            // Swap Navigation Buttons
-            loginBtn.classList.add('hidden');
-            logoutBtn.classList.remove('hidden');
+        function attemptLogin() {
+            const email = emailInput.value.toLowerCase().trim();
+            const password = passInput.value;
 
-            // Scroll to top to see the "Welcome" banner
-            window.scrollTo(0,0);
+            // CHECK DATABASE
+            if (mockDatabase[email] && mockDatabase[email].password === password) {
+                // SUCCESS
+                loadDashboard(mockDatabase[email]);
+                
+                // Switch Views
+                loginModal.classList.add('hidden');
+                publicView.classList.add('hidden');
+                dashboardView.classList.remove('hidden');
+                loginBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+                window.scrollTo(0,0);
+            } else {
+                // FAIL
+                errorMsg.style.display = 'block';
+            }
         }
 
         function performLogout() {
-            // Fake the logout process
             dashboardView.classList.add('hidden');
             publicView.classList.remove('hidden');
-            
-            // Swap Navigation Buttons
             logoutBtn.classList.add('hidden');
             loginBtn.classList.remove('hidden');
+        }
+
+        function loadDashboard(user) {
+            // 1. Set Header Info
+            userWelcome.innerText = `Welcome back, ${user.name}`;
+            userId.innerText = user.id;
+
+            // 2. Generate Stats HTML
+            statsContainer.innerHTML = `
+                <div class="stat-card primary">
+                    <p class="label">Next Payment Due</p>
+                    <h2>${user.stats.due}</h2>
+                </div>
+                <div class="stat-card">
+                    <p class="label">Total Coverage</p>
+                    <h2>${user.stats.coverage}</h2>
+                </div>
+                <div class="stat-card">
+                    <p class="label">Yearly Savings</p>
+                    <h2 style="color: #00b894;">${user.stats.savings}</h2>
+                </div>
+                <div class="stat-card">
+                    <p class="label">Open Claims</p>
+                    <h2>${user.stats.claims}</h2>
+                </div>
+            `;
+
+            // 3. Generate Policy HTML Loop
+            let policiesHTML = '';
+            user.policies.forEach(policy => {
+                let statusClass = policy.status === 'Active' ? 'active' : 'review';
+                
+                let detailsHTML = '';
+                policy.details.forEach(d => {
+                    detailsHTML += `
+                        <div class="data-point">
+                            <span>${d.label}</span>
+                            <strong>${d.val}</strong>
+                        </div>
+                    `;
+                });
+
+                policiesHTML += `
+                    <div class="policy-card">
+                        <div class="policy-header">
+                            <div><h4>${policy.title}</h4><small>${policy.sub}</small></div>
+                            <span class="status ${statusClass}">${policy.status}</span>
+                        </div>
+                        <div class="policy-body">
+                            ${detailsHTML}
+                        </div>
+                    </div>
+                `;
+            });
+            policiesContainer.innerHTML = policiesHTML;
         }
     </script>
 </body>
