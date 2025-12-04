@@ -64,4 +64,202 @@
         .policy-header { background-color: #f8f9fa; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0; }
         .policy-body { padding: 1.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         .data-point span { display: block; font-size: 0.85rem; color: #666; margin-bottom: 4px; }
-        .data-point strong { font-
+        .data-point strong { font-size: 1.1rem; color: var(--primary-navy); }
+        
+        .status { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .active { background-color: #e6fffa; color: #00b894; border: 1px solid #00b894; }
+        .review { background-color: #fffbea; color: #d69e2e; border: 1px solid #d69e2e; }
+
+        /* TABLE */
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; }
+        th { text-align: left; background: var(--primary-navy); color: white; padding: 12px; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:last-child td { border-bottom: none; }
+        
+        @media (max-width: 768px) {
+            .policy-body { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SecureLife</div>
+        <div class="nav-links">
+            <button id="loginBtn" onclick="toggleLoginModal()">Client Login</button>
+            <button id="logoutBtn" onclick="performLogout()" class="hidden" style="background-color: var(--danger); border-color: var(--danger);">Log Out</button>
+        </div>
+    </nav>
+
+    <div id="publicView">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Protect What Matters Most</h1>
+                <p>Modern insurance solutions for a changing world. Reliable coverage for your home, auto, and life.</p>
+                <button class="btn-main">Get a Quote</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="services">
+                <div class="card">
+                    <h3>Auto Insurance</h3>
+                    <p>Comprehensive coverage for the road ahead. Safe driver discounts available.</p>
+                </div>
+                <div class="card">
+                    <h3>Home Insurance</h3>
+                    <p>Protect your sanctuary against the unexpected with our premium home plans.</p>
+                </div>
+                <div class="card">
+                    <h3>Life Insurance</h3>
+                    <p>Secure your family's future with flexible term and whole life policies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboardView" class="hidden">
+        <div class="dashboard-header">
+            <div class="container welcome-banner">
+                <div>
+                    <h1>Welcome back, Robert</h1>
+                    <p>Client ID: <strong>#8839201-US</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card primary">
+                    <p class="label">Next Payment Due</p>
+                    <h2>$248.50</h2>
+                    <p style="font-size: 0.9rem; color: #bdc3c7;">Due Date: Nov 28, 2023</p>
+                </div>
+                <div class="stat-card">
+                    <p class="label">Total Coverage Value</p>
+                    <h2>$1.25M</h2>
+                    <p style="font-size: 0.9rem; color: #666;">Across 3 Active Policies</p>
+                </div>
+                <div class="stat-card">
+                    <p class="label">Yearly Savings</p>
+                    <h2 style="color: #00b894;">$420.00</h2>
+                    <p style="font-size: 0.9rem; color: #666;">Safe Driver Discount Applied</p>
+                </div>
+                <div class="stat-card">
+                    <p class="label">Open Claims</p>
+                    <h2>0</h2>
+                    <p style="font-size: 0.9rem; color: #666;">Last Claim: Feb 2021 (Closed)</p>
+                </div>
+            </div>
+
+            <h3 class="section-title">Active Policies</h3>
+
+            <div class="policy-card">
+                <div class="policy-header">
+                    <div><h4>2024 Tesla Model Y</h4><small>Policy #: AUT-99284-TX</small></div>
+                    <span class="status active">Active</span>
+                </div>
+                <div class="policy-body">
+                    <div class="data-point"><span>Coverage Level</span><strong>Comprehensive + Collision</strong></div>
+                    <div class="data-point"><span>Deductible</span><strong>$500.00</strong></div>
+                    <div class="data-point"><span>Premium</span><strong>$148.50 / mo</strong></div>
+                </div>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-header">
+                    <div><h4>123 Maple Avenue, Austin TX</h4><small>Policy #: HOM-11205-TX</small></div>
+                    <span class="status active">Active</span>
+                </div>
+                <div class="policy-body">
+                    <div class="data-point"><span>Dwelling Coverage</span><strong>$650,000</strong></div>
+                    <div class="data-point"><span>Personal Property</span><strong>$150,000</strong></div>
+                    <div class="data-point"><span>Premium</span><strong>$1,200.00 / yr</strong></div>
+                </div>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-header">
+                    <div><h4>Term Life (20 Year)</h4><small>Policy #: LIF-77319-US</small></div>
+                    <span class="status review">Annual Review</span>
+                </div>
+                <div class="policy-body">
+                    <div class="data-point"><span>Death Benefit</span><strong>$500,000</strong></div>
+                    <div class="data-point"><span>Beneficiary</span><strong>Jane Doe (Spouse)</strong></div>
+                    <div class="data-point"><span>Premium</span><strong>$45.00 / mo</strong></div>
+                </div>
+            </div>
+
+            <h3 class="section-title">Recent Transactions</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr><th>Date</th><th>Description</th><th>Policy</th><th>Amount</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Oct 28, 2023</td><td>Auto-Pay Monthly Premium</td><td>AUT-99284-TX</td><td>$148.50</td><td style="color: green;">Success</td></tr>
+                        <tr><td>Oct 15, 2023</td><td>Term Life Premium</td><td>LIF-77319-US</td><td>$45.00</td><td style="color: green;">Success</td></tr>
+                        <tr><td>Sep 28, 2023</td><td>Auto-Pay Monthly Premium</td><td>AUT-99284-TX</td><td>$148.50</td><td style="color: green;">Success</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal-overlay hidden">
+        <div class="login-box">
+            <h2>Client Portal</h2>
+            <p style="margin-bottom: 15px; font-size: 0.9rem; color: #666;">(For this demo, any password works)</p>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" value="demo@client.com">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" value="password123">
+            </div>
+            <button class="btn-main" onclick="performLogin()" style="width: 100%;">Sign In</button>
+            <p style="margin-top: 10px; cursor: pointer; color: #666;" onclick="toggleLoginModal()">Cancel</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const publicView = document.getElementById('publicView');
+        const dashboardView = document.getElementById('dashboardView');
+        const loginModal = document.getElementById('loginModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        function toggleLoginModal() {
+            loginModal.classList.toggle('hidden');
+        }
+
+        function performLogin() {
+            // Fake the login process
+            loginModal.classList.add('hidden');
+            publicView.classList.add('hidden');
+            dashboardView.classList.remove('hidden');
+            
+            // Swap Navigation Buttons
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+
+            // Scroll to top to see the "Welcome" banner
+            window.scrollTo(0,0);
+        }
+
+        function performLogout() {
+            // Fake the logout process
+            dashboardView.classList.add('hidden');
+            publicView.classList.remove('hidden');
+            
+            // Swap Navigation Buttons
+            logoutBtn.classList.add('hidden');
+            loginBtn.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
