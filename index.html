@@ -239,11 +239,12 @@
         const policiesContainer = document.getElementById('policiesContainer');
 
         function toggleLoginModal() {
-            loginModal.classList.toggle('hidden');
-            errorMsg.style.display = 'none'; // reset error
-            emailInput.value = "";
-            passInput.value = "";
-        }
+    // Check if elements exist before trying to access properties
+    if(loginModal) loginModal.classList.toggle('hidden');
+    if(errorMsg) errorMsg.style.display = 'none'; 
+    if(emailInput) emailInput.value = "";
+    if(passInput) passInput.value = "";
+    }
 
         function attemptLogin() {
     const email = emailInput.value.toLowerCase().trim();
