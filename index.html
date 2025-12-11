@@ -150,234 +150,220 @@
     </div>
 
     <script>
-        /* --- MOCK DATABASE (Fake Users) --- */
-        const mockDatabase = {
-            "robert@demo.com": {
-                password: "pass123",
-                name: "Robert",
-                id: "#8839201-US",
-                stats: {
-                    due: "$248.50",
-                    coverage: "$1.25M",
-                    savings: "$420.00",
-                    claims: "0"
-                },
-                policies: [
-                    {
-                        title: "2024 Tesla Model Y",
-                        sub: "Policy #: AUT-99284-TX",
-                        status: "Active",
-                        details: [
-                            { label: "Coverage", val: "Comprehensive" },
-                            { label: "Deductible", val: "$500.00" },
-                            { label: "Premium", val: "$148.50 / mo" }
-                        ]
-                    },
-                    {
-                        title: "123 Maple Avenue",
-                        sub: "Policy #: HOM-11205-TX",
-                        status: "Active",
-                        details: [
-                            { label: "Dwelling", val: "$650,000" },
-                            { label: "Property", val: "$150,000" },
-                            { label: "Premium", val: "$1,200 / yr" }
-                        ]
-                    },
-                    {
-                        title: "Term Life (20 Year)",
-                        sub: "Policy #: LIF-77319-US",
-                        status: "Review",
-                        details: [
-                            { label: "Benefit", val: "$500,000" },
-                            { label: "Beneficiary", val: "Jane Doe" },
-                            { label: "Premium", val: "$45.00 / mo" }
-                        ]
-                    }
-                ]
+    /* --- MOCK DATABASE (Fake Users) --- */
+    const mockDatabase = {
+        "robert@demo.com": {
+            password: "pass123",
+            name: "Robert",
+            userId: "#8839201-US", // Changed to userId to match your preference
+            stats: {
+                due: "$248.50",
+                coverage: "$1.25M",
+                savings: "$420.00",
+                claims: "0"
             },
-            "sarah@demo.com": {
-                password: "pass123",
-                name: "Sarah",
-                id: "#9921005-NY",
-                stats: {
-                    due: "$85.00",
-                    coverage: "$45,000",
-                    savings: "$50.00",
-                    claims: "1"
+            policies: [
+                {
+                    title: "2024 Tesla Model Y",
+                    sub: "Policy #: AUT-99284-TX",
+                    status: "Active",
+                    details: [
+                        { label: "Coverage", val: "Comprehensive" },
+                        { label: "Deductible", val: "$500.00" },
+                        { label: "Premium", val: "$148.50 / mo" }
+                    ]
                 },
-                policies: [
-                    {
-                        title: "2018 Honda Civic",
-                        sub: "Policy #: AUT-55412-NY",
-                        status: "Active",
-                        details: [
-                            { label: "Coverage", val: "Liability Only" },
-                            { label: "Deductible", val: "$1,000.00" },
-                            { label: "Premium", val: "$85.00 / mo" }
-                        ]
-                    }
-                ]
-            }
-        };
-
-        // DOM Elements
-        const publicView = document.getElementById('publicView');
-        const dashboardView = document.getElementById('dashboardView');
-        const loginModal = document.getElementById('loginModal');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const errorMsg = document.getElementById('loginError');
-
-        // Inputs
-        const emailInput = document.getElementById('emailInput');
-        const passInput = document.getElementById('passInput');
-
-        // Dashboard targets
-        const userWelcome = document.getElementById('userWelcome');
-        const userId = document.getElementById('userId');
-        const statsContainer = document.getElementById('statsContainer');
-        const policiesContainer = document.getElementById('policiesContainer');
-
-        function toggleLoginModal() {
-    // Check if elements exist before trying to access properties
-    if(loginModal) loginModal.classList.toggle('hidden');
-    if(errorMsg) errorMsg.style.display = 'none'; 
-    if(emailInput) emailInput.value = "";
-    if(passInput) passInput.value = "";
-    }
-
-        function attemptLogin() {
-    const email = emailInput.value.toLowerCase().trim();
-    const password = passInput.value;
-
-    // CHECK DATABASE
-    if (mockDatabase[email] && mockDatabase[email].password === password) {
-        
-        // --- SUCCESS: User Authenticated ---
-        const user = mockDatabase[email];
-        
-        // 1. CAPTURE THE MEMBER ID
-        // We pull the 'id' from your database object and assign it to 'extRef'
-        const extRef = userId;
-
-        // 2. QUALTRICS CODE SNIPPET
-        if(typeof QSI === "undefined") {
-            // Case A: Qualtrics script hasn't loaded yet
-            QSI = {};
-            QSI.config = {
-                externalReference: extRef
-            };
-        } else {
-            // Case B: Qualtrics is already loaded (Likely in an SPA)
-            // We must update the existing config
-            if (!QSI.config) QSI.config = {};
-            QSI.config.externalReference = extRef;
-            
-            // SPA REFRESH: This tells Qualtrics to re-check the intercept logic 
-            // now that we have a user ID.
-            if(QSI.API) {
-                QSI.API.unload();
-                QSI.API.load(); 
-                console.log("Qualtrics reloaded with User ID:", extRef);
-            }
+                {
+                    title: "123 Maple Avenue",
+                    sub: "Policy #: HOM-11205-TX",
+                    status: "Active",
+                    details: [
+                        { label: "Dwelling", val: "$650,000" },
+                        { label: "Property", val: "$150,000" },
+                        { label: "Premium", val: "$1,200 / yr" }
+                    ]
+                },
+                {
+                    title: "Term Life (20 Year)",
+                    sub: "Policy #: LIF-77319-US",
+                    status: "Review",
+                    details: [
+                        { label: "Benefit", val: "$500,000" },
+                        { label: "Beneficiary", val: "Jane Doe" },
+                        { label: "Premium", val: "$45.00 / mo" }
+                    ]
+                }
+            ]
+        },
+        "sarah@demo.com": {
+            password: "pass123",
+            name: "Sarah",
+            userId: "#9921005-NY", // Changed to userId
+            stats: {
+                due: "$85.00",
+                coverage: "$45,000",
+                savings: "$50.00",
+                claims: "1"
+            },
+            policies: [
+                {
+                    title: "2018 Honda Civic",
+                    sub: "Policy #: AUT-55412-NY",
+                    status: "Active",
+                    details: [
+                        { label: "Coverage", val: "Liability Only" },
+                        { label: "Deductible", val: "$1,000.00" },
+                        { label: "Premium", val: "$85.00 / mo" }
+                    ]
+                }
+            ]
         }
+    };
 
-        // 3. PROCEED WITH DASHBOARD LOAD
-        loadDashboard(user);
-        
-        // Switch Views (Unchanged)
-        loginModal.classList.add('hidden');
-        publicView.classList.add('hidden');
-        dashboardView.classList.remove('hidden');
-        loginBtn.classList.add('hidden');
-        logoutBtn.classList.remove('hidden');
-        window.scrollTo(0,0);
+    // DOM Elements
+    const publicView = document.getElementById('publicView');
+    const dashboardView = document.getElementById('dashboardView');
+    const loginModal = document.getElementById('loginModal');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const errorMsg = document.getElementById('loginError');
 
-    } else {
-        // FAIL
-        errorMsg.style.display = 'block';
+    // Inputs
+    const emailInput = document.getElementById('emailInput');
+    const passInput = document.getElementById('passInput');
+
+    // Dashboard targets
+    const userWelcome = document.getElementById('userWelcome');
+    const userIdDisplay = document.getElementById('userId'); // Renamed variable to avoid confusion
+    const statsContainer = document.getElementById('statsContainer');
+    const policiesContainer = document.getElementById('policiesContainer');
+
+    function toggleLoginModal() {
+        // Check if elements exist before trying to access properties
+        if (loginModal) loginModal.classList.toggle('hidden');
+        if (errorMsg) errorMsg.style.display = 'none';
+        if (emailInput) emailInput.value = "";
+        if (passInput) passInput.value = "";
     }
-}
 
-            // CHECK DATABASE
-            if (mockDatabase[email] && mockDatabase[email].password === password) {
-                // SUCCESS
-                loadDashboard(mockDatabase[email]);
-                
-                // Switch Views
-                loginModal.classList.add('hidden');
-                publicView.classList.add('hidden');
-                dashboardView.classList.remove('hidden');
-                loginBtn.classList.add('hidden');
-                logoutBtn.classList.remove('hidden');
-                window.scrollTo(0,0);
+    function attemptLogin() {
+        const email = emailInput.value.toLowerCase().trim();
+        const password = passInput.value;
+
+        // CHECK DATABASE
+        if (mockDatabase[email] && mockDatabase[email].password === password) {
+
+            // --- SUCCESS: User Authenticated ---
+            const user = mockDatabase[email];
+
+            // 1. CAPTURE THE MEMBER ID
+            // Fixed: We capture the string from the database, NOT the HTML Element
+            const extRef = user.userId; 
+
+            // 2. QUALTRICS CODE SNIPPET
+            if (typeof QSI === "undefined") {
+                // Case A: Qualtrics script hasn't loaded yet
+                QSI = {};
+                QSI.config = {
+                    externalReference: extRef
+                };
             } else {
-                // FAIL
-                errorMsg.style.display = 'block';
+                // Case B: Qualtrics is already loaded (Likely in an SPA)
+                if (!QSI.config) QSI.config = {};
+                QSI.config.externalReference = extRef;
+
+                // SPA REFRESH
+                if (QSI.API) {
+                    QSI.API.unload();
+                    QSI.API.load();
+                    console.log("Qualtrics reloaded with User ID:", extRef);
+                }
             }
+
+            // 3. PROCEED WITH DASHBOARD LOAD
+            loadDashboard(user);
+
+            // Switch Views
+            loginModal.classList.add('hidden');
+            publicView.classList.add('hidden');
+            dashboardView.classList.remove('hidden');
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+        } else {
+            // FAIL
+            errorMsg.style.display = 'block';
         }
+    }
 
-        function performLogout() {
-            dashboardView.classList.add('hidden');
-            publicView.classList.remove('hidden');
-            logoutBtn.classList.add('hidden');
-            loginBtn.classList.remove('hidden');
+    function performLogout() {
+        dashboardView.classList.add('hidden');
+        publicView.classList.remove('hidden');
+        logoutBtn.classList.add('hidden');
+        loginBtn.classList.remove('hidden');
+        
+        // Optional: Reset Qualtrics config on logout
+        if (typeof QSI !== "undefined" && QSI.config) {
+            QSI.config.externalReference = null;
         }
+    }
 
-        function loadDashboard(user) {
-            // 1. Set Header Info
-            userWelcome.innerText = `Welcome back, ${user.name}`;
-            userId.innerText = user.id;
+    function loadDashboard(user) {
+        // 1. Set Header Info
+        userWelcome.innerText = `Welcome back, ${user.name}`;
+        // Fixed: Use the renamed DOM variable and the correct data property
+        userIdDisplay.innerText = user.userId;
 
-            // 2. Generate Stats HTML
-            statsContainer.innerHTML = `
-                <div class="stat-card primary">
-                    <p class="label">Next Payment Due</p>
-                    <h2>${user.stats.due}</h2>
-                </div>
-                <div class="stat-card">
-                    <p class="label">Total Coverage</p>
-                    <h2>${user.stats.coverage}</h2>
-                </div>
-                <div class="stat-card">
-                    <p class="label">Yearly Savings</p>
-                    <h2 style="color: #00b894;">${user.stats.savings}</h2>
-                </div>
-                <div class="stat-card">
-                    <p class="label">Open Claims</p>
-                    <h2>${user.stats.claims}</h2>
-                </div>
-            `;
+        // 2. Generate Stats HTML
+        statsContainer.innerHTML = `
+            <div class="stat-card primary">
+                <p class="label">Next Payment Due</p>
+                <h2>${user.stats.due}</h2>
+            </div>
+            <div class="stat-card">
+                <p class="label">Total Coverage</p>
+                <h2>${user.stats.coverage}</h2>
+            </div>
+            <div class="stat-card">
+                <p class="label">Yearly Savings</p>
+                <h2 style="color: #00b894;">${user.stats.savings}</h2>
+            </div>
+            <div class="stat-card">
+                <p class="label">Open Claims</p>
+                <h2>${user.stats.claims}</h2>
+            </div>
+        `;
 
-            // 3. Generate Policy HTML Loop
-            let policiesHTML = '';
-            user.policies.forEach(policy => {
-                let statusClass = policy.status === 'Active' ? 'active' : 'review';
-                
-                let detailsHTML = '';
-                policy.details.forEach(d => {
-                    detailsHTML += `
-                        <div class="data-point">
-                            <span>${d.label}</span>
-                            <strong>${d.val}</strong>
-                        </div>
-                    `;
-                });
+        // 3. Generate Policy HTML Loop
+        let policiesHTML = '';
+        user.policies.forEach(policy => {
+            let statusClass = policy.status === 'Active' ? 'active' : 'review';
 
-                policiesHTML += `
-                    <div class="policy-card">
-                        <div class="policy-header">
-                            <div><h4>${policy.title}</h4><small>${policy.sub}</small></div>
-                            <span class="status ${statusClass}">${policy.status}</span>
-                        </div>
-                        <div class="policy-body">
-                            ${detailsHTML}
-                        </div>
+            let detailsHTML = '';
+            policy.details.forEach(d => {
+                detailsHTML += `
+                    <div class="data-point">
+                        <span>${d.label}</span>
+                        <strong>${d.val}</strong>
                     </div>
                 `;
             });
-            policiesContainer.innerHTML = policiesHTML;
-        }
-    </script>
+
+            policiesHTML += `
+                <div class="policy-card">
+                    <div class="policy-header">
+                        <div><h4>${policy.title}</h4><small>${policy.sub}</small></div>
+                        <span class="status ${statusClass}">${policy.status}</span>
+                    </div>
+                    <div class="policy-body">
+                        ${detailsHTML}
+                    </div>
+                </div>
+            `;
+        });
+        policiesContainer.innerHTML = policiesHTML;
+    }
+</script>
 </body>
 </html>
