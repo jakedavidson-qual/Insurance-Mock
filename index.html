@@ -246,8 +246,57 @@
         }
 
         function attemptLogin() {
-            const email = emailInput.value.toLowerCase().trim();
-            const password = passInput.value;
+    const email = emailInput.value.toLowerCase().trim();
+    const password = passInput.value;
+
+    // CHECK DATABASE
+    if (mockDatabase[email] && mockDatabase[email].password === password) {
+        
+        // --- SUCCESS: User Authenticated ---
+        const user = mockDatabase[email];
+        
+        // 1. CAPTURE THE MEMBER ID
+        // We pull the 'id' from your database object and assign it to 'extRef'
+        const extRef = user.id;
+
+        // 2. QUALTRICS CODE SNIPPET
+        if(typeof QSI === "undefined") {
+            // Case A: Qualtrics script hasn't loaded yet
+            QSI = {};
+            QSI.config = {
+                externalReference: extRef
+            };
+        } else {
+            // Case B: Qualtrics is already loaded (Likely in an SPA)
+            // We must update the existing config
+            if (!QSI.config) QSI.config = {};
+            QSI.config.externalReference = extRef;
+            
+            // SPA REFRESH: This tells Qualtrics to re-check the intercept logic 
+            // now that we have a user ID.
+            if(QSI.API) {
+                QSI.API.unload();
+                QSI.API.load(); 
+                console.log("Qualtrics reloaded with User ID:", extRef);
+            }
+        }
+
+        // 3. PROCEED WITH DASHBOARD LOAD
+        loadDashboard(user);
+        
+        // Switch Views (Unchanged)
+        loginModal.classList.add('hidden');
+        publicView.classList.add('hidden');
+        dashboardView.classList.remove('hidden');
+        loginBtn.classList.add('hidden');
+        logoutBtn.classList.remove('hidden');
+        window.scrollTo(0,0);
+
+    } else {
+        // FAIL
+        errorMsg.style.display = 'block';
+    }
+}
 
             // CHECK DATABASE
             if (mockDatabase[email] && mockDatabase[email].password === password) {
