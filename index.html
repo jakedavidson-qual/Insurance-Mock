@@ -51,8 +51,6 @@
             .hero h1 { font-size: 2.5rem; }
         }
     </style>
-    <!--BEGIN QUALTRICS WEBSITE FEEDBACK SNIPPET-->
-
     <script type='text/javascript'>
     
     (function(){var g=function(g){
@@ -63,10 +61,9 @@
     
     try{(new g("https://znekxwrd1dgfw3tag-usaa.siteintercept.qualtrics.com/SIE/?Q_ZID=ZN_ekxwrd1DGFW3TAG")).start()}catch(i){}})();
     
-    </script><div id='ZN_ekxwrd1DGFW3TAG'><!--DO NOT REMOVE-CONTENTS PLACED HERE--></div>
+    </script><div id='ZN_ekxwrd1DGFW3TAG'></div>
     
-    <!--END WEBSITE FEEDBACK SNIPPET-->
-</head>
+    </head>
 <body>
 
     <nav>
@@ -155,7 +152,7 @@
         "robert@demo.com": {
             password: "pass123",
             name: "Robert",
-            userId: "#8839201-US", // Changed to userId to match your preference
+            userId: "#8839201-US", 
             stats: {
                 due: "$248.50",
                 coverage: "$1.25M",
@@ -198,7 +195,7 @@
         "sarah@demo.com": {
             password: "pass123",
             name: "Sarah",
-            userId: "#9921005-NY", // Changed to userId
+            userId: "#9921005-NY",
             stats: {
                 due: "$85.00",
                 coverage: "$45,000",
@@ -234,12 +231,11 @@
 
     // Dashboard targets
     const userWelcome = document.getElementById('userWelcome');
-    const userIdDisplay = document.getElementById('userId'); // Renamed variable to avoid confusion
+    const userIdDisplay = document.getElementById('userId'); 
     const statsContainer = document.getElementById('statsContainer');
     const policiesContainer = document.getElementById('policiesContainer');
 
     function toggleLoginModal() {
-        // Check if elements exist before trying to access properties
         if (loginModal) loginModal.classList.toggle('hidden');
         if (errorMsg) errorMsg.style.display = 'none';
         if (emailInput) emailInput.value = "";
@@ -257,7 +253,6 @@
             const user = mockDatabase[email];
 
             // 1. CAPTURE THE MEMBER ID
-            // Fixed: We capture the string from the database, NOT the HTML Element
             const extRef = user.userId; 
 
             // 2. QUALTRICS CODE SNIPPET
@@ -268,7 +263,7 @@
                     externalReference: extRef
                 };
             } else {
-                // Case B: Qualtrics is already loaded (Likely in an SPA)
+                // Case B: Qualtrics is already loaded
                 if (!QSI.config) QSI.config = {};
                 QSI.config.externalReference = extRef;
 
@@ -312,7 +307,6 @@
     function loadDashboard(user) {
         // 1. Set Header Info
         userWelcome.innerText = `Welcome back, ${user.name}`;
-        // Fixed: Use the renamed DOM variable and the correct data property
         userIdDisplay.innerText = user.userId;
 
         // 2. Generate Stats HTML
@@ -364,6 +358,6 @@
         });
         policiesContainer.innerHTML = policiesHTML;
     }
-</script>
+    </script>
 </body>
 </html>
