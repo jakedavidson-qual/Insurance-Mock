@@ -147,12 +147,15 @@
     </div>
 
     <script>
+    /* --- STATE TRACKING --- */
+    let isLoggedIn = null; // Default state
+
     /* --- MOCK DATABASE (Fake Users) --- */
     const mockDatabase = {
         "robert@demo.com": {
             password: "pass123",
             name: "Robert",
-            userId: "#8839201-US", 
+            userId: "#8839201-US",
             stats: {
                 due: "$248.50",
                 coverage: "$1.25M",
@@ -250,20 +253,18 @@
         if (mockDatabase[email] && mockDatabase[email].password === password) {
 
             // --- SUCCESS: User Authenticated ---
+            isLoggedIn = 1; // <--- SET STATE TO 1
+            
             const user = mockDatabase[email];
-
-            // 1. CAPTURE THE MEMBER ID
             const extRef = user.userId; 
 
-            // 2. QUALTRICS CODE SNIPPET
+            // QUALTRICS CODE SNIPPET
             if (typeof QSI === "undefined") {
-                // Case A: Qualtrics script hasn't loaded yet
                 QSI = {};
                 QSI.config = {
                     externalReference: extRef
                 };
             } else {
-                // Case B: Qualtrics is already loaded
                 if (!QSI.config) QSI.config = {};
                 QSI.config.externalReference = extRef;
 
@@ -275,9 +276,9 @@
                 }
             }
 
-            // 3. PROCEED WITH DASHBOARD LOAD
+            // PROCEED WITH DASHBOARD LOAD
             loadDashboard(user);
-
+            
             // Switch Views
             loginModal.classList.add('hidden');
             publicView.classList.add('hidden');
@@ -286,6 +287,8 @@
             logoutBtn.classList.remove('hidden');
             window.scrollTo(0, 0);
 
+            console.log("Login Success. isLoggedIn =", isLoggedIn);
+
         } else {
             // FAIL
             errorMsg.style.display = 'block';
@@ -293,23 +296,25 @@
     }
 
     function performLogout() {
+        isLoggedIn = null; // <--- RESET STATE TO NULL
+        
         dashboardView.classList.add('hidden');
         publicView.classList.remove('hidden');
         logoutBtn.classList.add('hidden');
         loginBtn.classList.remove('hidden');
         
-        // Optional: Reset Qualtrics config on logout
+        // Reset Qualtrics config on logout
         if (typeof QSI !== "undefined" && QSI.config) {
             QSI.config.externalReference = null;
         }
+
+        console.log("Logged Out. isLoggedIn =", isLoggedIn);
     }
 
     function loadDashboard(user) {
-        // 1. Set Header Info
         userWelcome.innerText = `Welcome back, ${user.name}`;
         userIdDisplay.innerText = user.userId;
 
-        // 2. Generate Stats HTML
         statsContainer.innerHTML = `
             <div class="stat-card primary">
                 <p class="label">Next Payment Due</p>
@@ -329,11 +334,9 @@
             </div>
         `;
 
-        // 3. Generate Policy HTML Loop
         let policiesHTML = '';
         user.policies.forEach(policy => {
             let statusClass = policy.status === 'Active' ? 'active' : 'review';
-
             let detailsHTML = '';
             policy.details.forEach(d => {
                 detailsHTML += `
@@ -343,7 +346,6 @@
                     </div>
                 `;
             });
-
             policiesHTML += `
                 <div class="policy-card">
                     <div class="policy-header">
@@ -358,6 +360,6 @@
         });
         policiesContainer.innerHTML = policiesHTML;
     }
-    </script>
+</script>
 </body>
 </html>
